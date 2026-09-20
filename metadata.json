@@ -1,0 +1,6 @@
+{
+  "name": "MineX",
+  "description": "Enterprise-grade digital platform for mining documents, mine operations, worker management, structured mining data, and AI-assisted knowledge retrieval.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
