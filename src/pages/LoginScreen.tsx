@@ -41,8 +41,10 @@ export const LoginScreen: React.FC = () => {
     loginWithUser, 
     loginWithAdmin, 
     submitAccessRequest,
+    backendStatus,
     t 
   } = useApp();
+const isBackendConnected = backendStatus === 'MineX backend is running';
 
   const [step, setStep] = useState<AuthStep>('WELCOME');
 
@@ -390,6 +392,18 @@ export const LoginScreen: React.FC = () => {
                 Official Data Provenance
               </span>
             </div>
+                        <div className="mt-4 flex items-center justify-center gap-2 text-xs">
+              <span
+                className={`h-2 w-2 rounded-full ${
+                  isBackendConnected ? "bg-emerald-500" : "bg-red-500"
+                }`}
+              />
+              <span className="text-[#64748B]">
+                {isBackendConnected
+                  ? "MineX Backend Connected"
+                  : "MineX Backend Disconnected"}
+              </span>
+              </div>
           </div>
         )}
 

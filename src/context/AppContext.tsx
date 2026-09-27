@@ -36,6 +36,7 @@ import {
 import { translations } from '../i18n/translations';
 
 interface AppContextType {
+  backendStatus: string;
   currentRole: UserRole;
   currentLang: Language;
   isLoggedIn: boolean;
@@ -94,6 +95,20 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+    const [backendStatus, setBackendStatus] = useState<string>('Checking...');
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/health')
+      .then(response => response.json())
+      .then(data => {
+        setBackendStatus(data.message);
+      })
+      .catch(() => {
+        setBackendStatus('Backend disconnected');
+      });
+  }, []);
+
   const [currentRole, setCurrentRole] = useState<UserRole>('USER');
   const [currentLang, setCurrentLang] = useState<Language>('en');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // Starts at Welcome / Role-selection screen
@@ -603,6 +618,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   return (
     <AppContext.Provider value={{
+      backendStatus,
       currentRole,
       currentLang,
       isLoggedIn,

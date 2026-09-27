@@ -22,6 +22,9 @@ export const UploadDocument: React.FC = () => {
     name: 'CMPDI_Geological_Exploration_Block_IV.pdf',
     size: '8.4 MB'
   });
+
+  const [actualFile, setActualFile] = useState<File | null>(null);
+  
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -48,6 +51,7 @@ export const UploadDocument: React.FC = () => {
     setDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
+      setActualFile(file);
       setSelectedFile({
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`
@@ -59,6 +63,7 @@ export const UploadDocument: React.FC = () => {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+    setActualFile(file);
       setSelectedFile({
         name: file.name,
         size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`
