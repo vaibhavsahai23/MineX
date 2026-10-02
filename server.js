@@ -68,7 +68,44 @@ app.post(
     }
   }
 );
+app.post("/api/process-text", (req, res) => {
+  try {
+    const fileName = req.header("X-File-Name");
 
+    if (!fileName) {
+      return res.status(400).json({
+        status: "error",
+        message: "File name is required"
+      });
+    }
+
+    const safeFileName = path.basename(fileName);
+    const filePath = path.join(uploadDir, safeFileName);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        status: "error",
+        message: "File not found"
+      });
+    }
+
+    const extractedText = fs.readFileSync(filePath, "utf-8");
+
+    res.json({
+      status: "success",
+      message: "Text extracted successfully",
+      fileName: safeFileName,
+      extractedText
+    });
+  } catch (error) {
+    console.error("Text processing error:", error);
+
+    res.status(500).json({
+      status: "error",
+      message: "Text processing failed"
+    });
+  }
+});
 app.listen(PORT, () => {
   console.log(`MineX backend running on http://localhost:${PORT}`);
 });
